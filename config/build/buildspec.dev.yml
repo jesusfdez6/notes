@@ -1,0 +1,25 @@
+version: 0.2
+        
+phases:
+  install:
+    run-as: Linux-user-name
+    on-failure: ABORT
+    runtime-versions:
+      nodejs: 18
+      runtime: version
+    commands:
+      - npm i -g serverless@2
+      - cd notes
+      - npm install
+  build:
+    on-failure: ABORT
+    commands:
+      - npm test
+      - serverless packge --stage dev
+artifacts:
+  files:
+    - my-artifact/*
+  name: myArtifact
+cache:
+  paths:
+    - 'notes/node_modules/*/*'
